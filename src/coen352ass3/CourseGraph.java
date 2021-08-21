@@ -2,16 +2,19 @@ package coen352ass3;
 
 public class CourseGraph extends Graphm{
 	public String [] courses;
+	public int numCourses;
 	// store the course corresponding to each course
 	public CourseGraph()
 	{
 		Init(def_size);
 		courses = new String [def_size];
+		numCourses = 0;
 	}
 	public CourseGraph(int n)
 	{
 		Init(n);
 		courses = new String [n];
+		numCourses = 0;
 	}
 	
 	public void clear()
