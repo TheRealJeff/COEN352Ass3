@@ -7,11 +7,17 @@ package coen352ass3;
 */
 
 class Graphm implements Graph { // Graph: Adjacency matrix
-  private int[][] matrix;                // The edge matrix
+  
+	protected static int def_size = 50;
+	static final int UNVISITED = 0;
+	static final int VISITED = 1;
+	protected int[][] matrix;                // The edge matrix
   private int numEdge;                   // Number of edges
   public int[] Mark;                     // The mark array
 
-  public Graphm() {}
+  public Graphm() {
+	  Init(def_size);
+  }
   public Graphm(int n) {                 // Constructor
     Init(n);
   }
@@ -65,4 +71,5 @@ class Graphm implements Graph { // Graph: Adjacency matrix
  // Get and set marks
   public void setMark(int v, int val) { Mark[v] = val; }
   public int getMark(int v) { return Mark[v]; }
+  
 }
