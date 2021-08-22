@@ -36,6 +36,7 @@ public class AStack<E> implements ADTStack<E> {
   /** Push "it" onto stack */
   public void push(E it) {
     assert top != maxSize : "Stack is full";
+    // for our purposes for this assignment, we need ensure pushed element is unique
     for(int i = 0; i < this.length(); i++)
     {
       if(it.equals(listArray[i]))

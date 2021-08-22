@@ -16,13 +16,13 @@ class Graphm implements Graph { // Graph: Adjacency matrix
   public int[] Mark;                     // The mark array
 
   public Graphm() {
-	  //Init(def_size);
   }
   public Graphm(int n) {                 // Constructor
     Init(n);
   }
 
   public void Init(int n) {
+	// initialize attributes
     Mark = new int[n];
     matrix = new int[n][n];
     numEdge = 0;

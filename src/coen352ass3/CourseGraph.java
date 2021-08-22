@@ -16,14 +16,15 @@ public class CourseGraph extends Graphm{
 	
 	public void clear()
 	{
+		// clear all marks from CourseGraph object
 		for(int i = 0; i < this.n(); i++)
 		{
 			this.setMark(i, UNVISITED);
 		}
 	}
 	
-	public String getPrerequisitePath(String courseCode) { // Recursive topological sort
-		this.clear();
+	public String getPrerequisitePath(String courseCode) { 
+		this.clear(); // set all to UNVISITED
 		ADTStack <String> stack = new AStack <String> (100);
 		ADTStack <String> stackToOutput = new AStack <String> (100);
 		String toReturn = "";
@@ -35,9 +36,10 @@ public class CourseGraph extends Graphm{
 		{
 			String v = stack.pop();
 			
-			String [] prereqs = this.getPrerequisiteHelp(v);
+			String [] prereqs = this.getPrerequisiteHelp(v); 
 
 			if (prereqs != null) {
+				// push all prerequisites to stack
 				for(int i = 0; i < prereqs.length; i++)
 				{
 					stackToOutput.push(prereqs[i]);
@@ -45,6 +47,7 @@ public class CourseGraph extends Graphm{
 				}
 			}
 		}
+		// print all elements in stack
 		while(stackToOutput.length() > 0)
 		{
 			toReturn += stackToOutput.pop();
@@ -55,6 +58,7 @@ public class CourseGraph extends Graphm{
 
 	public String [] getPrerequisite(String courseCode)
 	{
+		// clear visited array
 		this.clear();
 		return this.getPrerequisiteHelp(courseCode);
 	}
@@ -99,6 +103,7 @@ public class CourseGraph extends Graphm{
 	}
 
 	public static int getIndex(String course) throws Exception {
+		// needed to convert strings in file to integers
 		int index;
 		switch (course)
 		{

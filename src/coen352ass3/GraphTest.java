@@ -99,7 +99,8 @@ public class GraphTest
 			    G.setEdge(v1, v2, weight);
 			    if (undirected) // Put in edge in other direction
 			      	G.setEdge(v2, v1, weight);
-
+			    // weights are not relevant for this application, but we keep this anyway
+			    
 			    G.courses[v1] = v1String;
 			    G.courses[v2] = v2String;
 			  }
@@ -107,6 +108,7 @@ public class GraphTest
 	}
 
 	public static int getIndex(String course) throws Exception {
+		// needed to find int corresponding to node index
 		int index;
 		switch (course)
 		{
