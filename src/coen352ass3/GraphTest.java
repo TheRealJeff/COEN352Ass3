@@ -26,7 +26,7 @@ public class GraphTest
 
 	static final int UNVISITED = 0;
 	static final int VISITED = 1;
-	public static CourseGraph createCGraph(BufferedReader file, CourseGraph G) throws IOException
+	/*public static CourseGraph createCGraph(BufferedReader file, CourseGraph G) throws IOException
 	{
 		int def_weight = 10; // weight is irrelevant to our assignment
 		String line = null;
@@ -60,6 +60,8 @@ public class GraphTest
 			token = new StringTokenizer(line);
 			v1String = token.nextToken();
 			v2String = token.nextToken();
+			v1 = 0;
+			v2 = 0;
 			
 			boolean v1new = true;
 			boolean v2new = true;
@@ -94,15 +96,18 @@ public class GraphTest
 		}
 		return G;
 	}
-	
+	*/
 	// Create a graph from file
-	static Graph createGraph(BufferedReader file, Graph G) 
-	throws IOException 
+	static CourseGraph createGraph(BufferedReader file, CourseGraph G) throws IOException
 	{
 			  String line = null;
 			  StringTokenizer token;
 			  boolean undirected = false;
 			  int i, v1, v2, weight;
+			  String v1String, v2String;
+
+			  v1 = 0;
+			  v2 = 0;
 			
 			  assert (line = file.readLine()) != null :
 			         "Unable to read number of vertices";
@@ -125,266 +130,218 @@ public class GraphTest
 			  // Read in edges
 			  while((line = file.readLine()) != null) {
 				token = new StringTokenizer(line);
-			    v1 = Integer.parseInt(token.nextToken());
-			    v2 = Integer.parseInt(token.nextToken());
-			    if (token.hasMoreTokens())
-			      weight = Integer.parseInt(token.nextToken());
+				v1String = token.nextToken();
+				v2String = token.nextToken();
+				try {
+				  v1 = getIndex(v1String);
+				} catch (Exception e) {
+				  e.printStackTrace();
+				}
+				try {
+				  v2 = getIndex(v2String);
+				} catch (Exception e) {
+				  e.printStackTrace();
+				}
+				if (token.hasMoreTokens())
+			    	weight = Integer.parseInt(token.nextToken());
 			    else // No weight given -- set at 1
 			      weight = 1;
 			    G.setEdge(v1, v2, weight);
 			    if (undirected) // Put in edge in other direction
-			      G.setEdge(v2, v1, weight);
+			      	G.setEdge(v2, v1, weight);
+
+			    G.courses[v1] = v1String;
+			    G.courses[v2] = v2String;
 			  }
 			  return G;
 	}
-	
-	static void Gprint(Graph G, StringBuffer out) {
-		  int i, j;
-		
-		  for (i=0; i<G.n(); i++) {
-		    for(j=0; j<G.n(); j++)
-		      if (G.weight(i, j) == Integer.MAX_VALUE)
-		        out.append("0 ");
-		      else
-		        out.append(G.weight(i, j) + " ");
-		  }
+
+	public static int getIndex(String course) throws Exception {
+		int index;
+		switch (course)
+		{
+			case "MATH204":
+				index = 0;
+				break;
+
+			case "COEN243":
+				index = 1;
+				break;
+
+			case "COEN212":
+				index = 2;
+				break;
+
+			case "COEN231":
+				index = 3;
+				break;
+
+			case "COEN311":
+				index = 4;
+				break;
+
+			case "COEN313":
+				index = 5;
+				break;
+
+			case "COEN346":
+				index = 6;
+				break;
+
+			case "COEN352":
+				index = 7;
+				break;
+
+			case "ENGR290":
+				index = 8;
+				break;
+
+			case "ELEC311":
+				index = 9;
+				break;
+
+			case "COEN317":
+				index = 10;
+				break;
+
+			case "COEN320":
+				index = 11;
+				break;
+
+			case "SOEN341":
+				index = 12;
+				break;
+
+			case "ELEC372":
+				index = 13;
+				break;
+
+			case "COEN244":
+				index = 14;
+				break;
+
+			case "COEN366":
+				index = 15;
+				break;
+
+			case "ENGR301":
+				index = 16;
+				break;
+
+			case "ENGR371":
+				index = 17;
+				break;
+
+			case "COEN390":
+				index = 18;
+				break;
+
+			case "COEN466":
+				index = 19;
+				break;
+
+			case "COEN451":
+				index = 20;
+				break;
+
+			case "COEN316":
+				index = 21;
+				break;
+
+			case "COEN413":
+				index = 22;
+				break;
+
+			case "COEN424":
+				index = 23;
+				break;
+
+			case "COEN432":
+				index = 24;
+				break;
+
+			case "COEN434":
+				index = 25;
+				break;
+
+			case "COEN415":
+				index = 26;
+				break;
+
+			case "COEN433":
+				index = 27;
+				break;
+
+			case "COEN421":
+				index = 28;
+				break;
+
+			case "COEN447":
+				index = 29;
+				break;
+
+			case "COEN422":
+				index = 30;
+				break;
+
+			case "COEN448":
+				index = 31;
+				break;
+
+			case "COEN490":
+				index = 32;
+				break;
+
+			case "COEN446":
+				index = 33;
+				break;
+
+			default:
+				System.out.println(course);
+				throw new Exception("Invalid course");
+		}
+		return index;
 	}
 	
-	
-	/**
-	 * output connected component;
-	 * @param G
-	 */
-	static void concom(Graph G) {
-		  int i;
-		  for (i=0; i<G.n(); i++)  // For n vertices in graph
-		    G.setMark(i, 0);       // Vertex i in no component
-		  int comp = 1;            // Current component
-		  for (i=0; i<G.n(); i++)
-		    if (G.getMark(i) == 0) // Start a new component
-		      DFS_component(G, i, comp++);
-		  for (i=0; i<G.n(); i++)
-		    out.append(i + " " + G.getMark(i) + " ");
-	}
-	
-	static void DFS_component(Graph G, int v, int comp) {
-	  G.setMark(v, comp);
-	  for (int w = G.first(v); w < G.n(); w = G.next(v, w))
-	    if (G.getMark(w) == 0)
-	      DFS_component(G, w, comp);
-	}
-	
-	/**
-	 * depth first traversal
-	 */
-	   static void PreVisit(Graph G, int v) {
-		  out.append(v + " "); //subject to the application
-		}
 
-		static void PostVisit(Graph G, int v) {
-		  out.append(v + " "); // subject to the application 
-		}
-
-//		static void DFS(Graph G, int v) { // Depth first search
-//			  PreVisit(G, v);                 // Take appropriate action
-//			  G.setMark(v, VISITED);
-//			  for (int w = G.first(v); w < G.n() ; w = G.next(v, w))
-//			    if (G.getMark(w) == UNVISITED)
-//			      DFS(G, w);
-//			  PostVisit(G, v);                // Take appropriate action
-			
-//	   }
-		
-		static void DFS(Graph G, int start) {	
-			
-			ADTStack<Integer> stack = new AStack<Integer>(G.n());
-			stack.push(start);
-		
-			while(stack.length()>0) {
-				
-				int v = stack.topValue();
-				stack.pop();
-				
-				PreVisit(G, v);
-				G.setMark(v, VISITED);
-				
-				int temp = v; 
-				
-				for (int w = G.first(temp); w < G.n(); w = G.next(temp,w)) {
-				    if (G.getMark(w) == UNVISITED) { // Put next to stack
-				    	
-				    	stack.push(w);
-				    	G.setMark(w, VISITED);
-				    	
-				    	int k = G.first(w); 
-				    	while(k<G.n()) {
-				    		 if (G.getMark(k) == UNVISITED) {
-				    			 G.setMark(k, VISITED);
-				    			 stack.push(k);
-				    			 temp = k;
-				    			 break;
-				    		 }
-				    		 k = G.next(w, k);
-				    	}
-				    	
-				    	
-				    }
-				 }
-				 PostVisit(G, v);
-			}
-		}
-		
-		void graphTraverse(Graph G) {
-		  int v;
-		  for (v=0; v<G.n(); v++)
-		    G.setMark(v, UNVISITED); // Initialize 
-		  for (v=0; v<G.n(); v++)
-		    if (G.getMark(v) == UNVISITED)
-		      DFS(G, v);
-		}
-		
-		
-		
-		
-		
-		/**
-		 *  Breadth first (queue-based) search
-		 */
-		static void BFS(Graph G, int start) {
-		  ADTQueue<Integer> Q = new AQueue<Integer>(G.n());
-		  Q.enqueue(start);
-		  G.setMark(start, VISITED);
-		  
-		  while (Q.length() > 0) {    // Process each vertex on Q
-		    int v = Q.dequeue();
-		    PreVisit(G, v);           // Take appropriate action
-		    for (int w = G.first(v); w < G.n(); w = G.next(v, w))
-		      if (G.getMark(w) == UNVISITED) { // Put neighbors on Q
-		        G.setMark(w, VISITED);
-		        Q.enqueue(w);
-		      }
-		    PostVisit(G, v);          // Take appropriate action
-		  }
-		}
-		
-		
-		static void printout(int v) {
-			  out.append(v + " ");
-		}
-		/**
-		 * topological sort with recursion 
-		 */
-		static void topsort(Graph G) { // Recursive topological sort
-			  for (int i=0; i<G.n(); i++)  // Initialize Mark array
-			    G.setMark(i, UNVISITED);
-			  for (int i=0; i<G.n(); i++)  // Process all vertices
-			    if (G.getMark(i) == UNVISITED)
-			      tophelp(G, i);           // Recursive helper function
-		}
-
-			// Topsort helper function
-		static void tophelp(Graph G, int v) {
-			  G.setMark(v, VISITED);
-			  for (int w = G.first(v); w < G.n(); w = G.next(v, w))
-			    if (G.getMark(w) == UNVISITED)
-			      tophelp(G, w);
-			  printout(v);                 // PostVisit for Vertex v
-		}
-		
-		/**
-		 * topological sort using queue without recursion  
-		 */
-		static void topsortQueue(Graph G) { // Topological sort: Queue
-			  ADTQueue<Integer> Q = new AQueue<Integer>(G.n());
-			  int[] Count = new int[G.n()];
-			  int v;
-			  for (v=0; v<G.n(); v++) Count[v] = 0; // Initialize
-			  for (v=0; v<G.n(); v++)      // Process every edge
-			    for (int w = G.first(v); w < G.n(); w = G.next(v, w))
-			       Count[w]++;       // Add to v2's prereq count
-			  for (v=0; v<G.n(); v++)      // Initialize Queue
-			    if (Count[v] == 0)         // V has no prerequisites
-			      Q.enqueue(v);
-			  while (Q.length() > 0) {     // Process the vertices
-			    v = Q.dequeue().intValue();
-			    printout(v);               // PreVisit for Vertex V
-			    for (int w = G.first(v); w < G.n(); w = G.next(v, w)) {
-			      Count[w]--;              // One less prerequisite
-			      if (Count[w] == 0)       // This vertex is now free
-			        Q.enqueue(w);
-			    }
-			  }
-			}
-		
-		
-		
 		  
 		
-	  /**
-	   * This method is automatically called once before each test case
-	   * method, so that all the variables are cleanly initialized for
-	   * each test.
-	   */
+	/**
+	* This method is automatically called once before each test case
+	* method, so that all the variables are cleanly initialized for
+	* each test.
+	*/
 	  
-	 static StringBuffer out;
+	static StringBuffer out;
 	  
-	 @BeforeEach
-	  public void setUp()
+	@BeforeEach
+	public void setUp()
 	  {
 	    out = new StringBuffer(100);
 	  }
 	
 	  
 	  
-	  //@Test
-	  public void testConnectComponent() throws IOException {
-		    BufferedReader f;
-		    f = new BufferedReader(new InputStreamReader(new FileInputStream("testfile-concomp.gph")));
-		    Graph G = new Graphm();
-		    createGraph(f, G);
-		    concom(G);
-		    assertEquals(out.toString(), "0 1 1 2 2 2 3 2 4 1 5 2 ");
-	  }
+
+
+
 	  
-	  //@Test
-	  public void testDFS() throws IOException {
-			BufferedReader f;
-			f = new BufferedReader(new InputStreamReader(new FileInputStream("testfile-traversal.gph")));
-			Graph G = new Graphm();
-			createGraph(f, G);
-			DFS(G,0);
-			assertEquals(out.toString(), "0 0 3 3 5 5 4 4 1 1 2 2 ");
-	  }
-	  
-	  //@Test
-	  public void testBFS() throws IOException {
-			BufferedReader f;
-			f = new BufferedReader(new InputStreamReader(new FileInputStream("testfile-traversal.gph")));
-			Graph G = new Graphm();
-			createGraph(f, G);
-			BFS(G, 0);
-		    assertEquals(out.toString(), "0 0 2 2 4 4 1 1 3 3 5 5 ");
-			    
-	  }
-	  
-	// @Test
-	  public void testTopSort() throws IOException {
-			BufferedReader f;
-			f = new BufferedReader(new InputStreamReader(new FileInputStream("testfile-topsort.gph")));
-			Graph G = new Graphm();
-			createGraph(f, G);
-			topsort(G);
-			assertEquals(out.toString(), "6 4 3 5 1 2 0 ");
-	 }
-	  
-	  @Test
-	  public void testTopSortQueue() throws IOException {
-			BufferedReader f;
-			f = new BufferedReader(new InputStreamReader(new FileInputStream("testfile-topsort.gph")));
-			Graph G = new Graphm();
-			createGraph(f, G);
-			topsortQueue(G);
-			assertEquals(out.toString(), "0 1 2 5 3 4 6 ");
+	@Test
+	public void testTopSortQueue() throws IOException {
+		BufferedReader f;
+		f = new BufferedReader(new InputStreamReader(new FileInputStream("coen_course.gph")));
+		CourseGraph G = new CourseGraph();
+		createGraph(f, G);
+		assertEquals(out.toString(), "0 1 2 5 3 4 6 ");
+	}
+
+	@Test
+	public void testGetPrerequisitePath() throws IOException {
+		BufferedReader f;
+		f = new BufferedReader(new InputStreamReader(new FileInputStream("coen_course.gph")));
+		CourseGraph G = new CourseGraph();
+		createGraph(f, G);
+		System.out.println(G.getPrerequisitePath("COEN313"));
 	}
 
 }

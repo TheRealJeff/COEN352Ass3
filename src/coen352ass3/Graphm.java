@@ -16,7 +16,7 @@ class Graphm implements Graph { // Graph: Adjacency matrix
   public int[] Mark;                     // The mark array
 
   public Graphm() {
-	  Init(def_size);
+	  //Init(def_size);
   }
   public Graphm(int n) {                 // Constructor
     Init(n);

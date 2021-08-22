@@ -2,19 +2,16 @@ package coen352ass3;
 
 public class CourseGraph extends Graphm{
 	public String [] courses;
-	public int numCourses;
 	// store the course corresponding to each course
 	public CourseGraph()
 	{
-		Init(def_size);
+		//Init(def_size);
 		courses = new String [def_size];
-		numCourses = 0;
 	}
 	public CourseGraph(int n)
 	{
 		Init(n);
 		courses = new String [n];
-		numCourses = 0;
 	}
 	
 	public void clear()
@@ -39,16 +36,14 @@ public class CourseGraph extends Graphm{
 			String v = stack.pop();
 			
 			String [] prereqs = this.getPrerequisiteHelp(v);
-			
-			for(int i = 0; i < prereqs.length; i++)
-			{
-				stackToOutput.push(prereqs[i]);
-				stack.push(prereqs[i]);
+
+			if (prereqs != null) {
+				for(int i = 0; i < prereqs.length; i++)
+				{
+					stackToOutput.push(prereqs[i]);
+					stack.push(prereqs[i]);
+				}
 			}
-			
-			
-			
-			
 		}
 		while(stackToOutput.length() > 0)
 		{

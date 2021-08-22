@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
+/*
 public class TestingMattIgnore {
 	static final int UNVISITED = 0;
 	static final int VISITED = 1;
@@ -20,12 +21,12 @@ public class TestingMattIgnore {
 		boolean undirected = false;
 		int i, v1, v2, weight;
 		String v1String, v2String;
-		
-		line = file.readLine();
-		assert (line != null) :
-		       "Unable to read number of vertices";
+
+		assert (line = file.readLine()) != null :
+				"Unable to read number of vertices";
 		while(line.charAt(0) == '#')
-		assert (line = file.readLine()) != null : "Unable to read number of vertices";
+			assert (line = file.readLine()) != null :
+					"Unable to read number of vertices";
 		token = new StringTokenizer(line);
 		int n = Integer.parseInt(token.nextToken());
 		G.Init(n);
@@ -44,6 +45,7 @@ public class TestingMattIgnore {
 			token = new StringTokenizer(line);
 			v1String = token.nextToken();
 			v2String = token.nextToken();
+			System.out.println("Stuff is happening");
 			v1 = 0;
 			v2 = 0;
 			boolean v1new = true;
@@ -86,7 +88,7 @@ public class TestingMattIgnore {
 		
 		
 			 CourseGraph g = new CourseGraph();
-			 BufferedReader f = new BufferedReader(new InputStreamReader(new FileInputStream("coen_course.gph")));
+			 BufferedReader f = new BufferedReader(new InputStreamReader(new FileInputStream("testfile-topsort.gph")));
 
 			createCGraph(f, g);
 			
@@ -98,3 +100,4 @@ public class TestingMattIgnore {
 		 
 	}
 }
+*/
