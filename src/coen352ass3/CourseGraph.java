@@ -68,8 +68,10 @@ public class CourseGraph extends Graphm{
 		// find node representing given course
 		for(int i = 0; i < this.n(); i++)
 		{
-			if(courses[i] == courseCode)
-				indexOfInput = i;
+			if (courses[i] != null) {
+				if (courses[i].equals(courseCode))
+					indexOfInput = i;
+			}
 		}
 		if(indexOfInput == -1)
 			return null; // course is not in graph
@@ -95,23 +97,151 @@ public class CourseGraph extends Graphm{
 		return toReturn;
 		
 	}
-	
-	static public void main(String [] args)
-	{
-		CourseGraph g = new CourseGraph ();
-		g.courses[0] = "Cal 1";
-		g.courses[1] = "Cal 2";
-		g.courses[2] = "Chem 1";
-		g.courses[3] = "Chem 2";
-		g.courses[4] = "Mechanics";
-		g.courses[5] = "Waves";
-		g.courses[6] = "E and M";
-		
-		g.setEdge(0, 1, 1);
-		g.setEdge(1, 6, 1);
-		g.setEdge(2, 3, 1);
-		g.setEdge(4, 5, 1);
-		g.setEdge(5, 6, 1);
-		System.out.println("OUTPUT:" + g.getPrerequisitePath("E and M"));
+
+	public static int getIndex(String course) throws Exception {
+		int index;
+		switch (course)
+		{
+			case "MATH204":
+				index = 0;
+				break;
+
+			case "COEN243":
+				index = 1;
+				break;
+
+			case "COEN212":
+				index = 2;
+				break;
+
+			case "COEN231":
+				index = 3;
+				break;
+
+			case "COEN311":
+				index = 4;
+				break;
+
+			case "COEN313":
+				index = 5;
+				break;
+
+			case "COEN346":
+				index = 6;
+				break;
+
+			case "COEN352":
+				index = 7;
+				break;
+
+			case "ENGR290":
+				index = 8;
+				break;
+
+			case "ELEC311":
+				index = 9;
+				break;
+
+			case "COEN317":
+				index = 10;
+				break;
+
+			case "COEN320":
+				index = 11;
+				break;
+
+			case "SOEN341":
+				index = 12;
+				break;
+
+			case "ELEC372":
+				index = 13;
+				break;
+
+			case "COEN244":
+				index = 14;
+				break;
+
+			case "COEN366":
+				index = 15;
+				break;
+
+			case "ENGR301":
+				index = 16;
+				break;
+
+			case "ENGR371":
+				index = 17;
+				break;
+
+			case "COEN390":
+				index = 18;
+				break;
+
+			case "COEN466":
+				index = 19;
+				break;
+
+			case "COEN451":
+				index = 20;
+				break;
+
+			case "COEN316":
+				index = 21;
+				break;
+
+			case "COEN413":
+				index = 22;
+				break;
+
+			case "COEN424":
+				index = 23;
+				break;
+
+			case "COEN432":
+				index = 24;
+				break;
+
+			case "COEN434":
+				index = 25;
+				break;
+
+			case "COEN415":
+				index = 26;
+				break;
+
+			case "COEN433":
+				index = 27;
+				break;
+
+			case "COEN421":
+				index = 28;
+				break;
+
+			case "COEN447":
+				index = 29;
+				break;
+
+			case "COEN422":
+				index = 30;
+				break;
+
+			case "COEN448":
+				index = 31;
+				break;
+
+			case "COEN490":
+				index = 32;
+				break;
+
+			case "COEN446":
+				index = 33;
+				break;
+
+			default:
+				System.out.println(course);
+				throw new Exception("Invalid course");
+		}
+		return index;
 	}
 }

@@ -26,77 +26,27 @@ public class GraphTest
 
 	static final int UNVISITED = 0;
 	static final int VISITED = 1;
-	/*public static CourseGraph createCGraph(BufferedReader file, CourseGraph G) throws IOException
-	{
-		int def_weight = 10; // weight is irrelevant to our assignment
-		String line = null;
-		StringTokenizer token;
-		boolean undirected = false;
-		int i, v1, v2, weight;
-		String v1String, v2String;
-		
-		int numVerts;
-		
-		assert (line = file.readLine()) != null :
-		       "Unable to read number of vertices";
-		while(line.charAt(0) == '#')
-		assert (line = file.readLine()) != null :
-			"Unable to read number of vertices";
-		token = new StringTokenizer(line);
-		int n = Integer.parseInt(token.nextToken());
-		G.Init(n);
-		for (i=0; i<n; i++)
-			G.setMark(i, UNVISITED);
-		assert (line = file.readLine()) != null :
-		     "Unable to read graph type";
-		if (line.charAt(0) == 'U')
-		    undirected = true;
-		else if (line.charAt(0) == 'D')
-		    undirected = false;
-		else assert false : "Bad graph type: " + line;
-		
-		while((line = file.readLine()) != null)
-		{
-			token = new StringTokenizer(line);
-			v1String = token.nextToken();
-			v2String = token.nextToken();
-			v1 = 0;
-			v2 = 0;
-			
-			boolean v1new = true;
-			boolean v2new = true;
-			for(int k = 0; k < G.courses.length; k++)
-			{
-				if(v1String == G.courses[k])
-				{
-					v1 = i;
-					v1new = false;
-				}
-				else if (v2String == G.courses[k])
-				{
-					v2 = i;
-					v2new = false;
-				}
-			}
-			
-			if(v1new)
-			{
-				v1 = G.numCourses;
-				G.courses[v1] = v1String;
-				G.numCourses++;
-			}
-			
-			if(v2new)
-			{
-				v2 = G.numCourses;
-				G.courses[v2] = v2String;
-				G.numCourses++;
-			}
-			G.setEdge(v1, v2, def_weight);
-		}
-		return G;
+
+	@Test
+	public void testGetPrerequisitePath() throws IOException {
+		BufferedReader f;
+		f = new BufferedReader(new InputStreamReader(new FileInputStream("coen_course.gph")));
+		CourseGraph G = new CourseGraph();
+		createGraph(f, G);
+		assertEquals("COEN212 COEN243 MATH204 COEN231 ENGR290 COEN352 COEN311 COEN390 ENGR371 ENGR301 SOEN341 COEN490 ", G.getPrerequisitePath("COEN490"), "Pre-requisite path do not match");
+		assertEquals("COEN212 COEN243 MATH204 COEN231 COEN352 COEN311 COEN346 COEN320 ", G.getPrerequisitePath("COEN320"), "Pre-requisite path do not match");
 	}
-	*/
+
+	@Test
+	public void testGetPrerequisite() throws IOException {
+		BufferedReader f;
+		f = new BufferedReader(new InputStreamReader(new FileInputStream("coen_course.gph")));
+		CourseGraph G = new CourseGraph();
+		createGraph(f, G);
+		assertArrayEquals( new String[]{"COEN212", "COEN231"}, G.getPrerequisite("COEN313"), "Pre-requisites do not match");
+		assertArrayEquals( new String[]{"SOEN341", "ENGR301", "ENGR371", "COEN390"}, G.getPrerequisite("COEN490"), "Pre-requisites do not match");
+	}
+
 	// Create a graph from file
 	static CourseGraph createGraph(BufferedReader file, CourseGraph G) throws IOException
 	{
@@ -301,47 +251,6 @@ public class GraphTest
 				throw new Exception("Invalid course");
 		}
 		return index;
-	}
-	
-
-		  
-		
-	/**
-	* This method is automatically called once before each test case
-	* method, so that all the variables are cleanly initialized for
-	* each test.
-	*/
-	  
-	static StringBuffer out;
-	  
-	@BeforeEach
-	public void setUp()
-	  {
-	    out = new StringBuffer(100);
-	  }
-	
-	  
-	  
-
-
-
-	  
-	@Test
-	public void testTopSortQueue() throws IOException {
-		BufferedReader f;
-		f = new BufferedReader(new InputStreamReader(new FileInputStream("coen_course.gph")));
-		CourseGraph G = new CourseGraph();
-		createGraph(f, G);
-		assertEquals(out.toString(), "0 1 2 5 3 4 6 ");
-	}
-
-	@Test
-	public void testGetPrerequisitePath() throws IOException {
-		BufferedReader f;
-		f = new BufferedReader(new InputStreamReader(new FileInputStream("coen_course.gph")));
-		CourseGraph G = new CourseGraph();
-		createGraph(f, G);
-		System.out.println(G.getPrerequisitePath("COEN313"));
 	}
 
 }

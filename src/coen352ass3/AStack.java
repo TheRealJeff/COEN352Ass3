@@ -36,8 +36,13 @@ public class AStack<E> implements ADTStack<E> {
   /** Push "it" onto stack */
   public void push(E it) {
     assert top != maxSize : "Stack is full";
+    for(int i = 0; i < this.length(); i++)
+    {
+      if(it.equals(listArray[i]))
+        return;
+    }
     listArray[top] = it;
-    ++top; 
+    ++top;
   }
 
   /** Remove and top element */
